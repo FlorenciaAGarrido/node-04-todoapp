@@ -1,25 +1,34 @@
 const { inquirerMenu, inquirerInput } = require('./helpers/inquirer')
+const TaskRepository = require('./repositories/TaskRepository');
 
 const main = async() => {
     
-    const option = await inquirerMenu();
-    
-    switch (option) {
-        case 1:
-            
-            //TODO: hacer que el usuario pueda ingresar el titulo de la tarea
-            console.log('El usuario selecciono la opcion crear tarea');
-
-            await inquirerInput('Task Title');
-                        break;
-    
-        case 2:
-
-        //TODO: mostrar la lista de tareas de la base de datos
+    const taskRepository = new TaskRepository();
+    let option = '';
+    do {
+        option = await inquirerMenu();
         
+        switch (option) {
+            case 1:
+                const title = await inquirerInput('Task Title');
+                taskRepository.createTask(title);
             break;
-    }
+        
+            case 2:
+                const allTasks = taskRepository.getAllTask();
+                console.log(allTasks);  
+                
+                
+                break;
+        }
+    
+    } while (option !== 'X') {
 
+    }
+    
+    
+
+    
 
 }
 

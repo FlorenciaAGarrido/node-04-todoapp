@@ -1,16 +1,23 @@
-const Task = require('../models/task')
+const Task = require('../models/task');
+const {getData, saveData} = require('../helpers/fileManager');
 
 class TaskRepository {
 
 
     _tasks = null;
     
-    constructor(){
-        this._tasks = []
+    constructor() {
+        const data = getData();
+        if(data){
+            this._tasks = data;   
+        } else {
+            this._tasks = [];
+        }
+        
     }
 
     getAllTask() {
-
+        return this._tasks;
     }
 
     /**
@@ -18,13 +25,12 @@ class TaskRepository {
      * @param {String} title
      *
      * TODO: Nos falta persistir datos en archivo
-     *      Return en la lista de tareas
      *  
      */
-    createTask(task) {
+    createTask(title) {
         const task = new Task(title);
         this._tasks.push(task);
-        return this._tasks;
+        saveData(this._tasks);    
     }
 
     deleteTask() {
@@ -37,3 +43,5 @@ class TaskRepository {
 
 
 }
+
+module.exports = TaskRepository;
