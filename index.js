@@ -1,9 +1,10 @@
-const { inquirerMenu, inquirerInput } = require('./helpers/inquirer')
-const TaskRepository = require('./repositories/TaskRepository');
+const { inquirerMenu, inquirerInput } = require('./helpers/inquirer');
+const { getAllTask, createTask } = require('./services/fileService');
+//const TaskRepository = require('./repositories/TaskRepository');
 
 const main = async() => {
     
-    const taskRepository = new TaskRepository();
+    //const taskRepository = new TaskRepository();
     let option = '';
     do {
         option = await inquirerMenu();
@@ -11,20 +12,18 @@ const main = async() => {
         switch (option) {
             case 1:
                 const title = await inquirerInput('Task Title');
-                taskRepository.createTask(title);
+                createTask(title);
             break;
         
             case 2:
-                const allTasks = taskRepository.getAllTask();
+                const allTasks = getAllTask();
                 console.log(allTasks);  
                 
                 
                 break;
         }
     
-    } while (option !== 'X') {
-
-    }
+    } while (option !== 'X')
     
     
 
